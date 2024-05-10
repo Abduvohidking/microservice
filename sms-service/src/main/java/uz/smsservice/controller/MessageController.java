@@ -1,15 +1,12 @@
 package uz.smsservice.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
-import uz.smsservice.dto.ApiResponse;
+import uz.smsservice.dto.CheckOTPDto;
 import uz.smsservice.dto.MessageRequest;
 import uz.smsservice.dto.MessageResponse;
-import uz.smsservice.service.MessageServiceImpl;
+import uz.smsservice.entity.Message;
+import uz.smsservice.service.impl.MessageServiceImpl;
 
 @RestController
 @RequestMapping("/api/sms/")
@@ -19,14 +16,17 @@ public class MessageController {
     private final MessageServiceImpl messageService;
 
     @PostMapping("/create")
-    public HttpEntity<?> createMessage(@RequestBody MessageRequest messageRequest) {
-        MessageResponse apiResponse = messageService.saveMessage(messageRequest);
-        return ResponseEntity.ok(apiResponse);
+    public MessageResponse createMessage(@RequestBody MessageRequest messageRequest) {
+        return messageService.saveMessage(messageRequest);
+    }
+
+    @PostMapping("/check")
+    public boolean checkOTP(@RequestBody CheckOTPDto otp){
+        return messageService.otpCheck(otp);
     }
 
     @GetMapping("{message_code}")
-    public HttpEntity<?> getMessage(@PathVariable String message_code) {
-        ApiResponse apiResponse = messageService.getMessage(message_code);
-        return ResponseEntity.ok(apiResponse);
+    public Message getMessage(@PathVariable String message_code) {
+        return messageService.getMessage(message_code);
     }
 }

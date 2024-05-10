@@ -3,11 +3,13 @@ package uz.identityservice.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.smsservice.enums.MessageSendType;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SmsResponseDto {
-    private String message_code;
+public class VerifyDto {
+    private String phoneNumber;
+    private String messageId;
+    private String code;
 }
+
